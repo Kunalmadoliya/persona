@@ -1,35 +1,33 @@
 import OpenAI from "openai";
 
 const client = new OpenAI({
-    apiKey : process.env.OPENAI_API_KEY,
-    
+  apiKey: process.env.OPENAI_API_KEY,
 });
 
-const tools = [
-  {
-    type: "function",
-    name: "get_horoscope",
-    description: "Get today's horoscope for an astrological sign.",
-    parameters: {
-      type: "object",
-      properties: {
-        sign: {
-          type: "string",
-          description: "An astrological sign like Taurus or Aquarius",
+export async function persona(tokens: string, systemPrompt: string) {
+  try {
+    const response = await client.responses.create({
+      model: "gpt-4o",
+      instructions: systemPrompt,
+      input: [
+        {
+          role: "user",
+          content: [
+            {
+              type: "input_text",
+              text: tokens,
+            },
+          ],
         },
-      },
-      required: ["sign"],
-      additionalProperties: false,
-    },
-    strict: true,
-  },
-];
+      ],
+    });
 
-async function getYoutubeContent(){
-    try{
-        
+   
+    console.log(response.output_text);
 
-    }catch(error){
-        console.log(error)
-    }
+    return response.output_text;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
 }
