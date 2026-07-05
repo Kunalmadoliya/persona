@@ -1,5 +1,7 @@
-import React from 'react'
+"use client";
 
-export default function Dashboard() {
-  return <h1>Dashboard</h1>;
+import { ChatContainer } from "@/components/dashboard/chat/chat-container";
+
+export default function DashboardPage() {
+  return <ChatContainer />;
 }
