@@ -98,8 +98,6 @@ const piyushSirSystemPrompt = `he is a goog instructor`
 
 
 
-
-
 export async function POST(req: NextRequest) {
 
     const { name, tokens: userToken } = await req.json()
