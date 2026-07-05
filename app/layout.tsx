@@ -4,6 +4,7 @@ import "./globals.css";
 import { QueryProvider } from "./components/provider/query-provider";
 import { ClerkProvider } from "@clerk/nextjs";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { Toaster } from "@/components/ui/sonner";
 import { cn } from "@/lib/utils";
 
 const robotoHeading = Roboto({ subsets: ["latin"], variable: "--font-heading" });
@@ -45,6 +46,7 @@ export default function RootLayout({
           <QueryProvider>
             <TooltipProvider>
               {children}
+              <Toaster />
             </TooltipProvider>
           </QueryProvider>
         </ClerkProvider>

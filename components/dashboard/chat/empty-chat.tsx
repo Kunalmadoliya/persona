@@ -1,124 +1,102 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import {
-  IconMessageChatbot,
-  IconBulb,
-  IconSparkles,
-  IconCode,
-} from "@tabler/icons-react";
+import { IconMessageChatbot, IconSparkles } from "@tabler/icons-react";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 
 interface EmptyChatProps {
   onSelectPersona: (persona: "HITESH" | "PIYUSH") => void;
-  onSendPrompt: (prompt: string, persona: "HITESH" | "PIYUSH") => void;
 }
 
-const SUGGESTIONS = [
+const PERSONAS = [
   {
-    text: "How should I structure a full-stack project?",
     persona: "HITESH" as const,
+    name: "Hitesh Choudhary",
+    subtitle: "Hitesh Sir Persona",
+    description: "Learn fundamentals through analogies, projects and practical thinking.",
+    color: "oklch(0.70 0.15 50)",
+    image: "/hiteshsir.webp",
   },
   {
-    text: "Explain Docker to me like I'm a beginner",
-    persona: "HITESH" as const,
-  },
-  {
-    text: "How do I design a scalable REST API?",
     persona: "PIYUSH" as const,
-  },
-  {
-    text: "What's the best way to learn system design?",
-    persona: "PIYUSH" as const,
+    name: "Piyush Garg",
+    subtitle: "Piyush Sir Persona",
+    description: "Learn scalable backend systems, architecture and production engineering.",
+    color: "oklch(0.65 0.15 160)",
+    image: "/piyushgargSir.webp",
   },
 ];
 
-export function EmptyChat({ onSelectPersona, onSendPrompt }: EmptyChatProps) {
+export function EmptyChat({ onSelectPersona }: EmptyChatProps) {
   return (
-    <div className="flex flex-1 items-center justify-center px-4 py-10">
-      <div className="w-full max-w-2xl space-y-6 animate-fade-in">
+    <div className="flex flex-1 items-center justify-center px-4 py-10 md:py-16 overflow-y-auto min-h-0">
+      <div className="w-full max-w-[800px] space-y-10 animate-fade-in my-auto">
         {/* Welcome */}
-        <div className="text-center space-y-2">
-          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 mb-4">
-            <IconSparkles size={24} className="text-primary" />
+        <div className="text-center space-y-3">
+          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 mb-6">
+            <IconSparkles size={28} className="text-primary" />
           </div>
-          <h2 className="font-heading text-2xl font-bold tracking-tight">
+          <h2 className="font-heading text-3xl font-bold tracking-tight">
             Start a conversation
           </h2>
-          <p className="text-sm text-muted-foreground max-w-md mx-auto">
+          <p className="text-sm md:text-base text-muted-foreground max-w-lg mx-auto">
             Choose a mentor and ask anything. Learn the way they teach — through conversations, not lectures.
           </p>
         </div>
 
-        {/* Persona selector */}
-        <div className="grid grid-cols-2 gap-3">
-          {(
-            [
-              {
-                persona: "HITESH" as const,
-                name: "Hitesh Choudhary",
-                initials: "HC",
-                desc: "Full stack, Hinglish, project-based",
-                color: "oklch(0.70 0.15 50)",
-              },
-              {
-                persona: "PIYUSH" as const,
-                name: "Piyush Garg",
-                initials: "PG",
-                desc: "Backend, System Design, production-ready",
-                color: "oklch(0.65 0.15 160)",
-              },
-            ] as const
-          ).map((p) => (
-            <button
+        {/* Premium Persona Cards */}
+        <div className="grid md:grid-cols-2 gap-6">
+          {PERSONAS.map((p) => (
+            <div
               key={p.persona}
-              onClick={() => onSelectPersona(p.persona)}
               className={cn(
-                "group flex items-center gap-3 rounded-xl border border-border bg-card/30 p-4 text-left transition-all duration-200",
-                "hover:bg-card/60 hover:border-border/80 hover:-translate-y-0.5"
+                "group relative flex flex-col items-center text-center rounded-3xl border border-border/80 bg-card/40 p-8 md:p-10 transition-all duration-500",
+                "hover:bg-card/70 hover:border-primary/30 hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1.5 overflow-hidden"
               )}
             >
-              <div
-                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-xs font-bold"
+              {/* Glass subtle gradient */}
+              <div 
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
                 style={{
-                  background: `color-mix(in oklch, ${p.color}, transparent 85%)`,
-                  color: p.color,
+                  background: `radial-gradient(circle at center 0%, color-mix(in oklch, ${p.color}, transparent 80%), transparent 70%)`
                 }}
-              >
-                {p.initials}
-              </div>
-              <div>
-                <p className="text-sm font-medium">{p.name}</p>
-                <p className="text-[11px] text-muted-foreground">{p.desc}</p>
-              </div>
-            </button>
-          ))}
-        </div>
+              />
 
-        {/* Suggested prompts */}
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-3 text-center">
-            Try asking
-          </p>
-          <div className="grid gap-2 sm:grid-cols-2">
-            {SUGGESTIONS.map((s) => (
-              <button
-                key={s.text}
-                onClick={() => onSendPrompt(s.text, s.persona)}
-                className={cn(
-                  "flex items-start gap-2.5 rounded-xl border border-border bg-card/20 px-4 py-3 text-left text-[13px] transition-all duration-200",
-                  "hover:bg-card/50 hover:border-border/80"
-                )}
+              <Avatar className="h-20 w-20 md:h-24 md:w-24 border-2 border-border/50 shadow-md shrink-0 transition-transform duration-500 group-hover:scale-105 mb-5 relative z-10">
+                <AvatarImage 
+                  src={p.image} 
+                  alt={p.name} 
+                  className="object-cover"
+                />
+                <AvatarFallback 
+                  className="text-lg font-bold"
+                  style={{
+                    background: `color-mix(in oklch, ${p.color}, transparent 85%)`,
+                    color: p.color,
+                  }}
+                >
+                  {p.name.charAt(0)}
+                </AvatarFallback>
+              </Avatar>
+              
+              <div className="flex flex-col items-center relative z-10 mb-6">
+                <p className="text-lg font-semibold tracking-tight">{p.name}</p>
+                <p className="text-xs font-medium text-muted-foreground mt-1 mb-3">{p.subtitle}</p>
+                <p className="text-sm text-muted-foreground leading-relaxed max-w-[280px]">
+                  {p.description}
+                </p>
+              </div>
+
+              <Button
+                onClick={() => onSelectPersona(p.persona)}
+                variant="outline"
+                className="w-full relative z-10 group-hover:bg-primary group-hover:text-primary-foreground group-hover:border-primary transition-all duration-300"
               >
-                <IconBulb size={14} className="shrink-0 text-muted-foreground mt-0.5" />
-                <div>
-                  <p className="text-foreground/90">{s.text}</p>
-                  <p className="text-[10px] text-muted-foreground mt-1">
-                    {s.persona === "HITESH" ? "Hitesh Choudhary" : "Piyush Garg"}
-                  </p>
-                </div>
-              </button>
-            ))}
-          </div>
+                Start Chat
+              </Button>
+            </div>
+          ))}
         </div>
       </div>
     </div>

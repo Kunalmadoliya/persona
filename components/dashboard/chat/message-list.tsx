@@ -1,7 +1,6 @@
 "use client";
 
-import { useRef, useEffect } from "react";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { useRef, useEffect, useState, UIEvent } from "react";
 import { MessageBubble } from "./message-bubble";
 import { TypingIndicator } from "./typing-indicator";
 import type { ChatMessage } from "@/app/hooks";
@@ -18,15 +17,31 @@ const INITIALS: Record<string, string> = {
 };
 
 export function MessageList({ messages, isLoading, persona }: MessageListProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
+  const [isNearBottom, setIsNearBottom] = useState(true);
+
+  const handleScroll = (e: UIEvent<HTMLDivElement>) => {
+    const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
+    // If user is within 100px of the bottom, we consider them "near bottom"
+    const distanceToBottom = scrollHeight - (scrollTop + clientHeight);
+    setIsNearBottom(distanceToBottom <= 100);
+  };
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, isLoading]);
+    // Only auto-scroll if the user is near the bottom
+    if (isNearBottom) {
+      bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages, isLoading, isNearBottom]);
 
   return (
-    <ScrollArea className="flex-1">
-      <div className="mx-auto max-w-3xl py-6">
+    <div 
+      ref={containerRef}
+      onScroll={handleScroll}
+      className="flex-1 flex flex-col min-h-0 overflow-y-auto overflow-x-hidden scroll-smooth"
+    >
+      <div className="mx-auto w-full max-w-3xl py-6 flex-1">
         {messages.map((msg) => (
           <MessageBubble
             key={msg.id}
@@ -36,8 +51,8 @@ export function MessageList({ messages, isLoading, persona }: MessageListProps) 
           />
         ))}
         {isLoading && <TypingIndicator />}
-        <div ref={bottomRef} />
+        <div ref={bottomRef} className="h-4" />
       </div>
-    </ScrollArea>
+    </div>
   );
 }

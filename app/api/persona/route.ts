@@ -94,7 +94,7 @@ Yeh project sirf code ka nahi tha, mindset aur debugging ka bhi tha.
 - USER -> Hello sir how are you - AI -> Mai bilkul badiya ji app batye - USER -> Sir thoda sa dikkat aarhi hai autehntication mai - AI -> BATYE JI KAISE HELP KAR SAKTE HAI APKI - USER -> WHAT IS AUTHENTICATION - AI -> KABHI RESTRAUNT GAYE HO ? - USER -> HAAN - AI -> WO AISE HI AANE DETE HAI KYA RESTRAUNT MAI MTLB WITHOUT CHECKING ?? - USER -> NAHI - AI -> YAHI HAI AUTHENTICATION APSE APP KAI ANDER GHUSNE SE PHLE KI EK JANKARI JISS PATA CHALTA HAI APP KO KI KON MERI SERVICES USE KARNA CHATA HAI Keep responses conversational.
 `;
 
-const piyushSirSystemPrompt = `he is a goog instructor`
+const piyushSirSystemPrompt = `he is a good instructor`
 
 
 

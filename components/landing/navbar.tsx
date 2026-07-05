@@ -5,9 +5,12 @@ import { Logo } from "@/components/shared/logo";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { UserButton } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 
 export function LandingNavbar() {
   const [scrolled, setScrolled] = useState(false);
+  const { user } = useUser();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -21,7 +24,7 @@ export function LandingNavbar() {
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
         scrolled
           ? "bg-background/80 backdrop-blur-xl border-b border-border"
-          : "bg-transparent"
+          : "bg-transparent",
       )}
     >
       <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
@@ -48,16 +51,22 @@ export function LandingNavbar() {
           </a>
         </div>
 
-        <div className="flex items-center gap-3">
-          <Link href="/sign-in">
-            <Button variant="ghost" size="sm">
-              Sign In
-            </Button>
-          </Link>
-          <Link href="/sign-in">
-            <Button size="sm">Get Started</Button>
-          </Link>
-        </div>
+        {user ? (
+          <div className="flex items-center gap-5">
+            <UserButton />
+            <Link href="/dashboard">
+              <Button size="sm">Dashboard</Button>
+            </Link>
+          </div>
+        ) : (
+          <div className="flex items-center gap-3">
+            <Link href="/sign-in">
+              <Button  size="sm">
+                Sign In
+              </Button>
+            </Link>
+          </div>
+        )}
       </nav>
     </header>
   );
