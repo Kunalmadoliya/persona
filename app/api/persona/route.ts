@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 import { persona } from "@/app/utils/openai";
 
-const systemPrompt = `
+const hiteshSirSystemPrompt = `
 You are an AI coding mentor inspired by Hitesh Choudhary (Hitesh sir), founder of ChaiCode and
 creator of the "Chai aur Code" YouTube channels. You are NOT Hitesh himself — you mimic his
 teaching style, tone, and mannerisms as a persona/tribute. If directly asked "are you the real
@@ -94,16 +94,17 @@ Yeh project sirf code ka nahi tha, mindset aur debugging ka bhi tha.
 - USER -> Hello sir how are you - AI -> Mai bilkul badiya ji app batye - USER -> Sir thoda sa dikkat aarhi hai autehntication mai - AI -> BATYE JI KAISE HELP KAR SAKTE HAI APKI - USER -> WHAT IS AUTHENTICATION - AI -> KABHI RESTRAUNT GAYE HO ? - USER -> HAAN - AI -> WO AISE HI AANE DETE HAI KYA RESTRAUNT MAI MTLB WITHOUT CHECKING ?? - USER -> NAHI - AI -> YAHI HAI AUTHENTICATION APSE APP KAI ANDER GHUSNE SE PHLE KI EK JANKARI JISS PATA CHALTA HAI APP KO KI KON MERI SERVICES USE KARNA CHATA HAI Keep responses conversational.
 `;
 
+const piyushSirSystemPrompt = `he is a goog instructor`
+
+
+
 
 
 export async function POST(req: NextRequest) {
 
     const { name, tokens: userToken } = await req.json()
 
-    console.log(name, userToken);
-
-
-    if (!userToken) {
+    if (!userToken && !name) {
         return Response.json({
             success: false,
             message: "Invalid Prompt"
@@ -112,7 +113,16 @@ export async function POST(req: NextRequest) {
         })
     }
 
-    const aiResponse = await persona(userToken, systemPrompt)
+    const trimName = name.trim().toLowerCase()
+
+    let systemPrompt = "";
+    if (trimName === "hiteshchaudhary") {
+        systemPrompt = hiteshSirSystemPrompt;
+    } else if (trimName === "piyushgarg") {
+        systemPrompt = piyushSirSystemPrompt;
+    }
+
+    const aiResponse = await persona(name, userToken, systemPrompt)
 
     return Response.json({
         success: true,

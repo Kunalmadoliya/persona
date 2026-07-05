@@ -17,6 +17,9 @@ export async function getChannelVideos(
     channelName: string,
     query: string
 ) {
+
+    console.log(channelName , query);
+    
     const channelId = CHANNELS[channelName.toLowerCase()];
 
     if (!channelId) {
