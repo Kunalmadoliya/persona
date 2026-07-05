@@ -42,7 +42,7 @@ export async function persona(
 
   // First response
   let response = await client.responses.create({
-    model: "gpt-4.1",
+    model: "gpt-4o-mini",
     instructions: systemPrompt,
     input: tokens,
     tools,
@@ -51,6 +51,8 @@ export async function persona(
 
   //this loop will return the video if necessary ai will automatically configure it out 
   // if necesaary then it will recommend the videos if not the it will give the simeple output
+
+  
 
   for (const item of response.output) {
 
