@@ -18,8 +18,6 @@ export async function getChannelVideos(
     query: string
 ) {
 
-
-
     const channelId = CHANNELS[channelName.toLowerCase()];
 
     if (!channelId) {

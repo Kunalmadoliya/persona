@@ -10,17 +10,20 @@ const tools: OpenAI.Responses.Tool[] = [
     type: "function",
     name: "getChannelVideos",
     description:
-      "Search the creator's YouTube channel for relevant videos.",
+      "Search the selected creator's YouTube channel for the most relevant videos. Use this whenever the user asks about a programming topic, roadmap, framework, language, project, interview preparation, or learning resource. Generate a short and specific search query (for example: 'javascript promises', 'react hooks', 'node authentication'). Prefer newer and highly relevant videos when possible, then use the results to recommend only the best videos naturally in your final answer. Never invent video titles.",
     parameters: {
       type: "object",
       properties: {
         channelName: {
           type: "string",
           enum: ["hiteshchaudhary", "piyushgarg"],
+          description:
+            "The creator whose YouTube channel should be searched.",
         },
         query: {
           type: "string",
-          description: "Short search query",
+          description:
+            "A short, specific search query based on the user's question. Examples: 'javascript', 'react context api', 'nextjs auth', 'docker compose'.",
         },
       },
       required: ["channelName", "query"],

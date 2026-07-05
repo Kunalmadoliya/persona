@@ -24,16 +24,17 @@ async function unwrapActionResult<T>(result: T | { error: string }): Promise<T> 
 }
 
 type PersonaInput = {
-    name: string;
-    tokens: string;
+    channelName: string,
+    tokens: string,
+    systemPrompt: string
 };
 
 export const usePersona = () => {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: async ({ name, tokens }: PersonaInput) =>
-            unwrapActionResult(persona(name, tokens)),
+        mutationFn: async ({ channelName, tokens, systemPrompt }: PersonaInput) =>
+            unwrapActionResult(persona(channelName, tokens, systemPrompt)),
 
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["persona"] });
