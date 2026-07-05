@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 interface LogoProps {
   variant?: "full" | "compact";
@@ -7,7 +8,7 @@ interface LogoProps {
 
 export function Logo({ variant = "full", className }: LogoProps) {
   return (
-    <a href="/" className={cn("flex items-center gap-2.5 select-none", className)}>
+    <Link href="/" className={cn("flex items-center gap-2.5 select-none", className)}>
       {/* Icon mark */}
       <div className="relative flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 ring-1 ring-primary/20">
         <svg
@@ -35,6 +36,6 @@ export function Logo({ variant = "full", className }: LogoProps) {
           Persona
         </span>
       )}
-    </a>
+    </Link>
   );
 }
