@@ -52,7 +52,7 @@ export async function persona(
   //this loop will return the video if necessary ai will automatically configure it out 
   // if necesaary then it will recommend the videos if not the it will give the simeple output
 
-  
+
 
   for (const item of response.output) {
 
